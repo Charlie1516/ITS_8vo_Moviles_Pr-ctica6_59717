@@ -292,8 +292,7 @@ http://ionicframework.com/docs/theming/ */
 		left: 0;
 	}
 
-	div#picture
-	{
+	div#picture {
 		height: 180px;
 		width: 254px;
 		margin-top: 20px;
@@ -301,11 +300,19 @@ http://ionicframework.com/docs/theming/ */
 		background-color: #fff;
 		border: 3px solid #494949;
 		clear: both;
-
 		border-radius: 15px;
-		-webkit-border-radius: 15px;
-		-moz-border-radius: 15px;
-		-o-border-radius: 15px;
+
+		overflow-x: hidden;
+		max-width: 100%;
+
+		
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: start;
+		overflow-y: auto; /* 👈 cambia esto */
+		padding: 0.5rem;
+		box-sizing: border-box;
 	}
 
 	div#picture img

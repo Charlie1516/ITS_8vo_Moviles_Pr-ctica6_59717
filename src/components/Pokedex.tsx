@@ -8,22 +8,35 @@ import React, { useContext } from 'react';
 import { EPokedexMenuOption, EPokedexScreen, MenuPokedexContext } from '../contexts/MenuPokedexContext';
 import '../theme/variables.css';
 import { Cross } from './Buttons/Cross';
+import { usePokemonGridNavigation } from '../contexts/PokemonGridNavigationContext';
+import { useItemGridNavigation } from '../contexts/ItemGridNavigationContext';
 
 const Pokedex: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { menuOption, screen, setMenuOption, setScreen } = useContext(MenuPokedexContext);
+  const { selectPokemon, showDetails: showPokemonDetails } = usePokemonGridNavigation();
+  const { selectItem, showItemDetails } = useItemGridNavigation();
   const router = useIonRouter();
-  
-  const onBigBlueButtonClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (screen === EPokedexScreen.MENU) {
-      e.preventDefault();
-      const path = EPokedexMenuOption[menuOption].toLowerCase();
-      setScreen(menuOption as unknown as EPokedexScreen)
-      router.push(`/${path}`);
-    }
-  }
 
-  const toggleScreen = () => {
-    if (screen === EPokedexScreen.EXIT) {
+  const onBigBlueButtonClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    if (screen === EPokedexScreen.MENU) {
+      const path = EPokedexMenuOption[menuOption].toLowerCase();
+      setScreen(menuOption as unknown as EPokedexScreen);
+      router.push(`/${path}`);
+    } else if (screen === EPokedexScreen.POKEDEX) {
+      selectPokemon();
+    } else if (screen === EPokedexScreen.PACK) {
+      selectItem();
+    }
+  };
+
+  const onRedButtonClick = () => {
+    if (screen === EPokedexScreen.POKEDEX && showPokemonDetails) {
+      selectPokemon(); // Salir de detalles del Pokémon
+    } else if (screen === EPokedexScreen.PACK && showItemDetails) {
+      selectItem(); // Salir de detalles del objeto
+    } else if ((screen === EPokedexScreen.POKEDEX && !showPokemonDetails) ||
+               (screen === EPokedexScreen.PACK && !showItemDetails)) {
       setScreen(EPokedexScreen.MENU);
       setMenuOption(EPokedexMenuOption.POKEDEX);
       router.push('/home');
@@ -31,8 +44,8 @@ const Pokedex: React.FC<{ children: React.ReactNode }> = ({ children }) => {
       setScreen(EPokedexScreen.EXIT);
       router.push('/exit');
     }
-  }
-  
+  };
+
   return (
     <IonPage>
       <IonContent fullscreen>
@@ -65,9 +78,8 @@ const Pokedex: React.FC<{ children: React.ReactNode }> = ({ children }) => {
               <div
                 id="buttonbottomPicture"
                 className="gameboy-button"
-                onClick={toggleScreen}
-              >
-              </div>
+                onClick={onRedButtonClick}
+              ></div>
               <div id="speakers">
                 <div className="sp"></div>
                 <div className="sp"></div>
@@ -79,8 +91,7 @@ const Pokedex: React.FC<{ children: React.ReactNode }> = ({ children }) => {
               id="bigbluebutton"
               className="gameboy-button"
               onClick={onBigBlueButtonClick}
-            >
-            </div>
+            ></div>
             <div id="barbutton1" className="gameboy-button"></div>
             <div id="barbutton2" className="gameboy-button"></div>
             <Cross />

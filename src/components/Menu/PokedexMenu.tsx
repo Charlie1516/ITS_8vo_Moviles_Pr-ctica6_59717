@@ -1,52 +1,47 @@
-import { faCaretRight } from "@fortawesome/free-solid-svg-icons"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { useContext } from "react"
-import { EPokedexMenuOption, MenuPokedexContext } from "../../contexts/MenuPokedexContext"
+import { faCaretRight } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useContext } from "react";
+import { EPokedexMenuOption, MenuPokedexContext } from "../../contexts/MenuPokedexContext";
 
 export const PokedexMenu = () => {
-  const { menuOption } = useContext(MenuPokedexContext)
+  const { menuOption } = useContext(MenuPokedexContext);
 
   const isSelected = (selectedOption: EPokedexMenuOption) => {
-    return menuOption === selectedOption
-  }
+    return menuOption === selectedOption;
+  };
 
   return (
-    <div className="font-pokemon text-xs !m-2 !p-2  border-3 border-double border-black rounded-md h-[calc(100%-1rem)]">
-      <ul>
-        <li>
-          <div className="flex flex-row justify-end">
-            <FontAwesomeIcon
-              className={`${isSelected(EPokedexMenuOption.POKEDEX) ? "" : "!hidden"
-                }`}
-              icon={faCaretRight}
-            />
-            <span className="w-full"></span>
-            <span>Pokedex</span>
-          </div>
+    <div
+      style={{
+        fontFamily: 'Pokemon GB',
+        fontSize: '14px',
+        margin: '10px',
+        padding: '10px',
+        border: '3px double black',
+        borderRadius: '8px',
+        height: 'calc(100% - 1rem)',
+      }}
+    >
+      <ul style={{ listStyle: 'none', padding: 0 }}>
+        <li style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+          {isSelected(EPokedexMenuOption.POKEDEX) && (
+            <FontAwesomeIcon icon={faCaretRight} style={{ marginRight: '4px' }} />
+          )}
+          <span>Pokedex</span>
         </li>
-        <li>
-          <div className="flex flex-row justify-end">
-            <FontAwesomeIcon
-              className={`${isSelected(EPokedexMenuOption.PACK) ? "" : "!hidden"
-                }`}
-              icon={faCaretRight}
-            />
-            <span className="w-full"></span>
-            <span>Objetos</span>
-          </div>
+        <li style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+          {isSelected(EPokedexMenuOption.PACK) && (
+            <FontAwesomeIcon icon={faCaretRight} style={{ marginRight: '4px' }} />
+          )}
+          <span>Objetos</span>
         </li>
-        <li>
-          <div className="flex flex-row justify-end">
-            <FontAwesomeIcon
-              className={`${isSelected(EPokedexMenuOption.EXIT) ? "" : "!hidden"
-                }`}
-              icon={faCaretRight}
-            />
-            <span className="w-full"></span>
-            <span>Salir</span>
-          </div>
+        <li style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+          {isSelected(EPokedexMenuOption.EXIT) && (
+            <FontAwesomeIcon icon={faCaretRight} style={{ marginRight: '4px' }} />
+          )}
+          <span>Salir</span>
         </li>
       </ul>
     </div>
-  )
-}
+  );
+};

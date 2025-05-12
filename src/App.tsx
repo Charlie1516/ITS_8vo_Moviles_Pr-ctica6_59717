@@ -19,10 +19,16 @@ import '@ionic/react/css/text-alignment.css';
 import '@ionic/react/css/text-transformation.css';
 
 /* Theme variables */
-import Pokedex from './components/Pokedex';
 import './theme/variables.css';
+
+import Pokedex from './components/Pokedex';
 import { MenuPokedexProvider } from './contexts/MenuPokedexProvider';
 import { PokedexMenu } from './components/Menu/PokedexMenu';
+import PokedexPage from './pages/PokedexPage';
+import PackPage from './pages/PackPage';
+
+import { PokemonGridNavigationProvider } from './contexts/PokemonGridNavigationContext';
+import { ItemGridNavigationProvider } from './contexts/ItemGridNavigationContext'; // ⬅️ Importar
 
 setupIonicReact();
 
@@ -30,24 +36,27 @@ const App: React.FC = () => (
   <IonApp>
     <IonReactRouter>
       <IonRouterOutlet>
-        <MenuPokedexProvider>
-          <Pokedex>
-            <Route exact path="/home">
-              <PokedexMenu />
-            </Route>
-            <Route exact path="/pokedex">
-              <>Esta es la Pokedex</>
-            </Route>
-            <Route exact path="/pack">
-              <>Esta es la bolsa de objetos</>
-            </Route>
-            <Route exact path="/exit">
-            </Route>
-            <Route exact path="/">
-              <Redirect to="/home" />
-            </Route>
-          </Pokedex>
-        </MenuPokedexProvider>
+        <PokemonGridNavigationProvider>
+          <ItemGridNavigationProvider> {/* ⬅️ Agregar este provider */}
+            <MenuPokedexProvider>
+              <Pokedex>
+                <Route exact path="/home">
+                  <PokedexMenu />
+                </Route>
+                <Route exact path="/pokedex">
+                  <PokedexPage />
+                </Route>
+                <Route exact path="/pack">
+                  <PackPage />
+                </Route>
+                <Route exact path="/exit" />
+                <Route exact path="/">
+                  <Redirect to="/home" />
+                </Route>
+              </Pokedex>
+            </MenuPokedexProvider>
+          </ItemGridNavigationProvider>
+        </PokemonGridNavigationProvider>
       </IonRouterOutlet>
     </IonReactRouter>
   </IonApp>
